@@ -11,7 +11,7 @@ class MyServer(BaseHTTPRequestHandler):
         обработку входящих запросов от клиентов
     """
     def __get_html_content(self):
-        html_file = 'homework.html'
+        html_file = 'index.html'
         with open(html_file, "r", encoding="utf-8") as file:
             html_content = file.read()
             return html_content
@@ -26,19 +26,18 @@ class MyServer(BaseHTTPRequestHandler):
         self.end_headers()  # Завершение формирования заголовков ответа
         self.wfile.write(bytes(page_content, "utf-8"))  # Тело ответа
 
-    if __name__ == "__main__":
-        # Инициализация веб-сервера, который будет по заданным параметрам в сети
-        # принимать запросы и отправлять их на обработку специальному классу, который был описан выше
-        webServer = HTTPServer((hostName, serverPort), MyServer)
-        print("Server started http://%s:%s" % (hostName, serverPort))
+if __name__ == "__main__":
+    # Инициализация веб-сервера, который будет по заданным параметрам в сети
+    # принимать запросы и отправлять их на обработку специальному классу, который был описан выше
+    webServer = HTTPServer((hostName, serverPort), MyServer)
+    print("Server started http://%s:%s" % (hostName, serverPort))
 
-        try:
-            # Cтарт веб-сервера в бесконечном цикле прослушивания входящих запросов
-            webServer.serve_forever()
-        except KeyboardInterrupt:
+    try:
+        # Cтарт веб-сервера в бесконечном цикле прослушивания входящих запросов
+        webServer.serve_forever()
+    except KeyboardInterrupt:
+        pass
 
-            pass
-
-        # Корректная остановка веб-сервера, чтобы он освободил адрес и порт в сети, которые занимал
-        webServer.server_close()
-        print("Server stopped.")
+    # Корректная остановка веб-сервера, чтобы он освободил адрес и порт в сети, которые занимал
+    webServer.server_close()
+    print("Server stopped.")
